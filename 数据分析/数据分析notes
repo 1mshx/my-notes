@@ -1,0 +1,37 @@
+Numpy
+numpy提供了两种基本对象：ndarray(数组)和ufunc(函数)
+
+数组属性：
+ndim：返回int。表示数组的维数
+shape：返回tuple。表示数组的尺寸，如(n,m)
+size：返回int。表示元素总数
+dtype：返回data-type。描述数组中元素的类型
+itemsize：返回int。表示数组的每个元素的大小
+
+创建数组：numpy.array(object,dtype=None,copy=True,order='K',subok=False,ndmin=0)
+ndmin:指定生成数组的最小维数，默认为None
+numpy.arange(开始值,结束值,步长)创建的是一维数组，不包括结束值
+numpy.linspace(开始值，结束值，元素个数)一维，等距
+numpy.logspace(开始值，结束值，元素个数)一维，等比
+
+np.zeros((n,m)) 全为0的二维数组
+np.eye(n) 对角线为1的二维数组
+np.diag([1,2,3,4]) 对角线为1，2，3，4，其它全为0
+np.ones((n,m)) 全为1的二维数组
+
+生成随机数：np.random.random(个数)
+均匀分布的随机数：.rand((n,m))
+正态分布的随机数：.randan()
+给定上下限范围的随机数:
+.randint(最小值，最大值，数组的shape，默认为None，dtype='1')
+
+可以通过索引访问数组，同list
+
+.reshape(n,m)：改变维度但是不改变大小
+.resize(n,m)：改变维度也改变大小
+.ravel()  (一维的，长度为n * m)：展平数组，只支持横向展平
+.flatten('F')：展平数组，默认为横向展平，中间有F为纵向展平，ravel只有横向展平
+
+组合数组： 横向组合和纵向组合  (n, m)
+np.hstack((arr1,arr2)) 横向聚合arr1和arr2，n相同
+np.vstack((arr1,arr2)) 纵向聚合arr1和arr2，m相同
