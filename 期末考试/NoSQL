@@ -64,3 +64,17 @@ MongoDB应用场景：
 不适用场景：
 1.高度事务性的系统，传统的商业智能应用
 2.复杂的文档级查询
+
+安装HBase：
+1.解压：tar zxvf hbase-1.2.6-bin.tar.gz /usr/local
+2.切换目录：cd /usr/local
+3.重命名：mv hbase-1.2-6 hbase
+修改配置文件：
+hbase-env.sh:配置hbase运行的变量，比如JAVA路径，RegionServer节点
+export JAVA_HOME=/usr/local/java/jdk1.8.0
+export HBASE_MANAGES_ZK=true
+hbase-site.xml:添加HBase的相关配置
+
+启动HBase：start-hbase.sh
+关闭Hbase：stop-hbase.sh
+
