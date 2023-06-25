@@ -1,0 +1,143 @@
+数据采集技术架构：数据源 -> 数据采集 -> 数据存储 -> 数据处理 -> 可视化 -> 报表监控
+
+网络爬虫架构：
+1.首先选取一部分精心挑选的种子url
+2.将这些url放入待爬取的url队列
+3.从待爬取的url的队列中取出待爬取的url，解析DNS，并得到主机的网络协议地址，将url对应的网页下载下来并保存到已下载的网页库中，然后将这些url放入已爬取的url队列
+4.分析已爬取的url队列中的url和其中的其它url，并将url放入到待爬取的url队列，从而进入下一个循环
+
+网络爬虫的类型：
+1.通用网络爬虫
+2.聚焦网络爬虫
+3.增量式网络爬虫
+4.深层网络爬虫
+
+Scrapy的常用组件：
+引擎，调度器，下载器，爬虫，项目管道，下载器中间件，调度器中间件，爬虫中间件
+
+实现http请求的三种方式：
+1.urllib3/urllib:
+	连接池：
+	http = urllib3.PoolManage()
+	r = http.request('GET',url) / http.request('POST',url,fileds=data)
+	print(r)
+	不用连接池：
+	req = urllib3.Request(url)
+	response = urllib3.urlopen(req)
+	html = response.read()
+	print(html)
+
+2.httplib/urllib:
+	urlstr = 'url'
+	h = httplib2.http()
+	response,content = h.request(urlstr) / h.request(urlstr,'POST',urlencode(data),headers=headers)
+	print(content.decode('utf-8'))
+
+3.requests
+	r = requests.get(url) / requests.post(url,data=data)
+	print(r.content)
+
+静态网页采集和动态网页采集的区别：
+对于网络数据采集，静态网页的数据是比较容易获取的，因为所有的数据都呈现在网页的HTML代码中。相对来说，使用异步JavaScript和XML动态加载网页的数据不一定出现在HTML代码中，这给网络数据的采集增加了难度。
+
+什么是静态网页和动态网页：
+静态网页是指纯粹的HTML格式的网页，这种网页的数据比较容易获取
+动态网页是由程序自动生成的页面，这样可以快速统一的更改网页风格，也可以减少服务器空间，但是对于数据采集带来了一些麻烦
+
+获取响应内容：
+	import requests
+	r = requests.get(url)  // 最基本的get请求
+	print(r.status_code)  // 获取返回状态
+	r = request.get(url,params=data)  //带参数的get请求
+	print(r.url)  //url
+	print(r.text)  //解码后的数据
+
+动态网页下载流程：
+1.从网页响应中找到JS脚本返回的json数据
+	(1)找到JavaScript请求的数据接口：打开network，只看XHR响应
+	(2)请求和解析数据接口数据
+2.使用selenium对网页进行模拟访问，sele	nium是一个用于自动化浏览器行为的工具和框架
+
+正则表达式：
+. 匹配任意字符   ? 匹配前一个字符0到1次
+$ 匹配结束位置   * 匹配前一个字符0到多次
+^ 匹配开始位置   + 匹配前一个字符1到多次
+{n,m} 匹配前一个字符n到m次
+[] 匹配[]中列举的字符
+\A 匹配字符串开始位置
+\Z 匹配字符串结束位置
+\b 匹配位于单词开始或结束的空字符串
+\B 匹配位于不在单词开始或结束的空字符串
+\d 匹配一个数字[0-9]
+\D 匹配非数字[^0-9]
+\s 匹配任意空白字符
+\w 匹配字母数字下划线
+() 分组索引
+
+re.match和re.search的区别：
+re.match只匹配字符串的开始位置，若是不符合匹配则返回None
+re,search函数会匹配整个字符串，直到找到一个匹配
+
+python网页解析器：html.parser,lxml,Beautiful Soup,正则表达式
+
+Dom树结构：
+                           Document
+                              |
+                         根节点<html>
+           |                                      |
+       元素<head>                              元素<body>
+           |                     |                            |
+       元素<title>             元素<a>                      元素<div>
+           |                     |                            |
+       文本<标题>           文本 链接文本                  文本 段落文字     
+
+Beautiful Soup语法及用法：
+soup = Beautiful Soup(html,解析器,文档编码格式)
+soup.findall() 查找所有符合查询条件的标签节点
+soup.find() 查找第一个符合查询条件的节点
+soup.prettify() 输出缩进格式的文本
+node.name 获取节点名称
+node.get('href') 获取href属性
+node['href'] 获取href属性
+node.get_text() 获取节点的字符串内容
+
+Beautiful Soup对象的种类：
+Tag,NavigableString,Beautiful Soup,Comment
+
+数据的存储格式：JSON和CSV
+
+数据的存储方式：HTML正文抽取，MYSQL数据库，MongoDB数据库
+
+简述上面三个存储方式的相同点和不同点：
+相同点：
+	1.都是用来存储和处理数据的技术
+	2.都能够处理大量的数据，并且都具有良好的扩展性和可靠性
+	3.都可以处理结构化的数据
+不同点：
+	1.HTML正文抽取主要用于网页内容分析和挖掘，而MySQL和MongoDB主要用于数据的持久化和查询
+	2.MySQL是关系型数据库，MongoDB是文档数据库，它们在数据模型，数据结构，查询语言等方面有所不同
+
+基础网络数据采集的架构：
+1.控制器：控制器是网络数据采集的中央控制器，其根据系统传来的URL链接分配线程，然后启动线程以调用网络数据采集网页
+2.解析器：解析器是网络数据采集的主要部分，其负责的工作主要包括：下载网页，对网页的文本进行处理
+3.资源库：资源库主要用来存储从网页中下载数据，并提供生成索引的目标元，大中型数据库产品有Oracle，SQL Server等
+
+控制节点：URL管理器，数据存储器，控制调度器
+
+采集节点：HTML下载器，HTML解析器，网络数据采集调度器
+
+反爬机制：
+1.header检验
+2.限制IP的请求数量
+3.动态加载
+4.访问频率限制
+5.代理IP和分布式网络数据采集
+6.蜜罐技术
+
+scrapy使用(天气数据采集为例)：
+1.创建工程：scrapy startproject 项目名字
+2.定义item：字段名 = Scrapy.Field()
+		eg:city = Scrapy.Field()
+		   date = Scrapy.Field()
+3.编写采集的代码
+4.保存到csv
