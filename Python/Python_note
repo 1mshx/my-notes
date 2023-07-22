@@ -64,6 +64,15 @@ continue：跳出本次循环
 		return 返回值   # 当有多返回值时，使用的是(return 1，2) 这种的，不能写多个return，只会识别第一个return
 *:先定义后调用，参数和返回值可以省略，返回值是None，可以等同于False
 
+函数的多种传参方式：
+1.位置参数：位置相对应
+2.关键字参数：键=值
+3.缺省参数：也称默认参数，没有传入就使用默认参数，默认参数必须写在最后面
+4.不定长参数：也叫可变参数，eg：(def user_info(*args))传入的是一个元组   # *args是位置不定长 **kwargs
+
+lambda匿名函数：用于零时构建一个函数，只能用一次
+定义语法：传入参数：函数体(一行代码)
+eg：test_func(lambda x,y:x+y)
 
 数据容器：一种可以容纳多份数据的数据类型，容纳的每一份数据称之为一个元素，每一个元素可以是任意类型的数据，比如字符串，数字，布尔等。
 python中有哪些数据容器：list(列表)，tuple(元组)，str(字符串)，set(集合)，dict(字典)
@@ -129,3 +138,420 @@ python中有哪些数据容器：list(列表)，tuple(元组)，str(字符串)�
 	str()   # 转换为字符串
 	set()   # 转换为集合
 	sorted(序列，[reverse=True])   # 排序，True表示为降序
+
+文件编码：编码就是一种集合规则，记录了内容和二进制间进行相互转换的逻辑，最常用的是utf-8
+打开文件：open(路径 ，访问模式，编码)
+常见的三种访问模式：r只读，w覆盖写，a追加写，不存在则创建，+是读写都可以
+读取文件：f.read(n)   # 用字节读，读取n个字节
+		f.readline(n)   # 按行读，读取n行
+		f.readlines(n)   # 读取所有行，得到列表
+		for line in f   # 通过for循环读取，一次读取一行
+		f.close()   # 关闭文件
+		with open() as f   # 通过with open 语法打开文件，可以自动关闭
+文件写入：f.write(写入内容)   # 写入内容，写入的是到内存中
+		f.flush()   # 刷新内容，将内容写入到硬盘中
+
+捕获常规异常：
+	try:
+		可能发生错误的代码
+	except:
+		如果出现异常执行的代码
+
+捕获指定异常：
+	try:
+		print(name)
+	except NameError as e:
+		print(f'name变量名称未定义错误:{e}')
+
+捕获多个异常：
+	try:
+		print(name)
+	except (NameError,ZeroDivisionError) as e:
+		print(f'name变量名称未定义错误:{e}')
+
+捕获所有异常：
+	try:
+		print(name)
+	except Exception as e:
+		print(f'name变量名称未定义错误:{e}')
+
+else是可选的，表示没有异常执行的代码
+finally也是可选的，表示无论如何都需要执行的代码
+	try:
+		print(name)
+	except Exception as e:
+		print(f'name变量名称未定义错误:{e}')
+	else：
+		print('没有异常很好')
+	finally:
+	f.close()
+
+异常的传递：异常具有传递性，会一层一层向上传
+
+python模块：是一个python文件
+导入模块：[form 模块名]  import [模块|类|变量|函数|*] [as 别名]
+当导入两个模块里面的相同的函数时，后面那个会覆盖前面那个
+测试模块内部函数：if __name__ == '__main__' 快捷键 main+回车
+如果一个模块中有'__all__'变量，当使用导入 * 时，只能导入这个列表中的元素
+eg:'__all__' == [函数1]
+
+python包：一个文件夹，包含一堆python模块和一个__init__.py文件，有__init__.py文件就是包，没有就是正常的
+创建包：在文件夹底下创建一个__init__.py文件
+__init__.py文件里面默认是空的，可以写'__all__' == [函数1]这些语句，来控制import *
+
+安装第三方包：通过pip安装第三方包
+语法：pip install 包名称 [-i 镜像源]   # 一般下载是从国外下载的，会很慢，可以使用-i 镜像源在国内下载
+
+安装时会遇到的问题：
+1.pip版本低了导致安装不成功
+	解决方法：pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple/   # 更新pip版本
+			pip --version   # 查看当前pip版本
+2.使用pip下载了，但是就是不能导包：没有下载到当前环境
+	解决办法：切换到当前项目的venv\Scripts目录下运行activate文件
+
+JSON：json就是一个在各个编程语言中流通的数据格式，负责不同编程语言中的数据传递和交互
+json要么时一个字典要么是一个列表，列表里面的元素都是字典
+语法：import json   # 导包
+	json.dumps(data,ensure_ascii=False)   # 将列表或者字典转换为json格式，ensure_ascii时传递参数决定是不是使用ascii编码，默认为true
+	 json.loads()   # 将json格式转换为列表或者字典
+
+数据可视化：使用pyecharts模块
+画图可以参观画廊网站：https://gallery.pyecharts.org/#/BMap/bmap_heatmap
+安装pyecharts：pip install pyecharts
+
+设置全局变量：set_global_opts(
+		TitleOpts:标题配置项
+		LengendOpts:图例配置项
+		ToolboxOpts:工具箱配置项
+		VisualMapOpts:视觉映射配置项
+		TooltipOpts:提示框配置项
+		DataZoomOpts:区域缩放配置项
+	eg:line.set_global_opts(
+			title_opts=TitleOpts('测试',pos_left="center",pos_bottom="1%")),   # 标题为测试，居中，在下面1%
+			legend_opts=LegendOpts(is_show=True),  
+			toolbox_opts=ToolboxOpts(is_show=True),  
+			visualmap_opts=VisualMapOpts(is_show=True),
+			tooltip_opts=TooltipOpts(is_show=True),
+			)
+
+创建折线图：from pyecharts.charts import Line
+			line = Line()   # 得到折线图对象
+			line.add_xaxis(x)   # 添加x轴数据
+			line.add_yaxis(线条名字，y)   # 添加线条名称和y轴数据
+			line.render(name.html)   # 生成图标
+
+创建地图：from pyecharts.charts import Map
+			map = Map()
+			map.add('测试地图',data,"china")
+			mao.render(name.html)
+
+创建柱状图：from pyecharts.charts import Bar
+			bar = Bar()
+			bar.add_xaxis(x)
+			bar.add_yaxis('标题',y,label_opts=LabelOpts=(position="right"))   # 参数是数字标签在右侧
+			bar.reversal_axis()   # 反转xy轴
+			bar.render(name.html)
+
+创建时间线柱状图：from pyecharts.charts import Bar,Timeline
+				bar1 = Bar()
+				bar1.add_xaxis(x)
+				bar1.add_yaxis('标题',y,label_opts=LabelOpts=(position="right"))
+				bar1.reversal_axis()
+				bar2 = Bar()
+				bar2.add_xaxis(x)
+				bar2.add_yaxis('标题',y,label_opts=LabelOpts=(position="right"))
+				bar2.reversal_axis()
+				timeline = Timeline({"theme":ThemeType.LIGHT})   # 主题设置
+				timeline.add(bar1,'1')
+				timeline.add(bar2,'2')
+				# 自动播放设置
+				timeline.add_schema(
+				paly_interval=10000,  # 自动播放的时间间隔，单位毫秒
+				is_timeline_show=True,   # 是否在循环播放的时候展示时间线
+				is_auto_play=True,   # 是否自动播放
+				is_loop_play=True   # 是否循环自动播放)
+				timeline.render()
+
+现实世界是事物是由属性和方法构成
+面向对象：设计类 -> 创建对象 -> 对象属性赋值
+成员变量：类的属性，定义在类中的变量
+成员方法：类的行为，定义在类中的函数
+创建类：
+	class 类名：
+		类的属性
+		类的行为
+		def 方法名(self,)
+
+构造方法：__init__() 在创建类对象的时候会自动执行，将传入参数自动传递给__init__方法使用
+eg:class Student:
+	name = None
+	age = None
+	tel = None   # 这三行可以省略
+	def __init__(self,name,age,tel):
+		self.name = name
+		self.age = age
+		self.tel = tel
+
+魔术内置方法：
+	字符串方法：__str__(self)  # 返回的值是字符串
+		eg: def __str__(self):
+				return f"姓名为{name}"
+
+	小于方法：__lt__(self,other)   # 返回True或者False
+		eg: def __lt__(self,other):
+				return self.age < other.age
+
+	小于等于方法：__le__(self,other)   # 返回True或者False
+		eg: def __le__(self,other):
+				return self.age <= other.age
+
+	等于方法：__eq__(self,other)   # 返回True或者False
+		eg: def __eq__(self,other):
+				return self.age == other.age
+
+面向对象编程三大特性：封装，继承，多态
+封装：将现实世界事物的属性，行为封装到类中，描述为成员变量，成员方法
+私有成员或者私有方法，只需要使用两个下划线开头，就可以完成私有成员的设置
+私有成员无法被类对象访问，类中的其它成员可以访问私有成员
+继承：继承就是一个类，继承另外一个类的成员变量和成员方法
+语法：class 类(父类)：   # 可以继承多个父类
+		类类容体
+单继承：一个类继承另一个类
+多继承：一个类继承多个类，从左往右继承
+多继承中，如果有同名方法或者属性，先继承的优先级高于后继承
+pass关键字的作用：占位语句，保证类定义的完整性，无内容，空的意思
+复写：子类在继承父类的成员属性和成员方法后，如果对它不满意，就可以进行重复写。在子类中重新定义同名的属性或方法
+复写直接定义就行，如果需要调用被复写的父类成员，需要使用特殊的调用方法：
+1.父类名.成员变量 / 父类名.成员方法(self)
+2.super().成员变量  / super().成员方法()
+
+类型注解：在代码中涉及数据交互的地方，提供数据类型的注解
+基础语法：变量：类型   eg: var_1:int = 10
+		在注释中， # type:类型   eg: # type：int
+元组类型的类型注解需要把每一个元素的类型都写出来
+函数也可以进行类型注解
+可以在形参或者返回值进行类型注解
+eg: def 函数方法名(形参:类型,......,形参:类型) -> 返回值类型：
+		pass
+Union类型：联合类型，要么是1要么是2 eg：Union[str,int]
+使用需要先导包：from typing import Union
+
+多态：以父类做定义声明，以子类做实际工作，用以获得同一行为，不同状态
+抽象类就是含有抽象方法的类，抽象方法就是里面有pass
+抽象类的作用：多用于做顶层设计，以便子类做具体实现
+
+连接数据库：需要进行导包
+	第一种方法：
+		# 导入连接数据库的包
+		from sqlalchemy import create_engine 
+		# 连接数据库  
+		engine = create_engine("mysql+pymysql://root:123456@localhost:3306/myfirst?charset=utf8")
+		con = engine.connect()
+		# 取数据
+		df = pd.read_sql_table('table_name',con=con)
+		# 存数据
+		df.to_sql('name',con=engine,if_exists='replace')   
+		# 其中if_exists的参数有：fail表示如果表存在则报错，replace表述如果表存在则删除原表再创建，append表示数据追加，replace index表示删除原表，保留原表索引,append index表示追加到数据原表，保留原表索引
+		# 关闭连接
+		con.close()
+
+	第二种方法：
+		# 导包
+		from pymysql import Connection
+		# 构建数据库的连接
+		conn = Connection(
+			host='127.0.0.1',
+			port=3306,
+			user='root',
+			password='123456',
+			autocommit=True   # 自动提交
+			)
+		print(conn.get_server_info())
+		# 获取游标对象
+		cursor = conn.cursor()
+		# 连接数据库
+		conn.select_db('myfrist')
+		# 执行sql语句
+		cursor.execute("create table test_pymyfirst(id int);")   # sql语句后面一定要加;
+		# 获取查询对象
+		cursor.execute("select * from order_train0")
+		results = cursor.fetchall()
+		for i in results:
+			print(i)
+		# 插入数据
+		cursor.execute("insert init test_pymyfirst values(222),(333),(444);")
+		# 确认插入，在上面设置了自动提交就不需要commit了
+		conn.commit()
+		# 关闭连接
+		conn.close()
+
+闭包：定义双层嵌套函数，内层函数可以访问外层函数的变量；将内层函数作为外层函数的返回，此内层函数就是闭包函数
+优点：无需定义全局变量即可实现通过函数，持续的访问，修改某个值；闭包使用的变量的所用与在函数内，难以被错误的调用修改
+缺点：由于内部函数的引用外部函数的值，所以会导致这一部分内存空间不被释放，一直占用内存
+使用nonlocal修改外部函数的变量
+
+装饰器：装饰器就是使用创建一个闭包函数，在闭包函数内调用目标函数，可以达到不改动目标函数的同时，增加额外的功能。
+装饰器的进阶写法：在定义函数前面@装饰器就可以了
+eg: @auther
+	def sleep():
+		pass
+
+设计模式：设计模式是一种编程套路，可以极大的方便程序的开发。
+单例模式：保证一个类只有一个实例，并提供一个访问它的全局访问点。
+优点：节省内存；节省创建对象的开销
+工厂模式：当需要大量创建一个类的实例的时候，可以使用工厂模式。即，从原生的使用类的构造去创建对象的形式
+优点：大批量创建对象有统一的入口，易于代码的维护；发生修改时，仅修改工厂类的创建方法即可
+
+进程：就是一个程序，运行在系统之上，那么便称之这个程序为一个运行进程，并分配进程ID方便系统管理。
+线程：线程时归属于进程的，一个进程可以开启多个线程，执行不同的工作，是进程的实际工作最小单位。
+注意：进程之间是内存隔离的，线程之间是内存共享的
+并行执行：同一时间做不同的工作。
+语法：通过threading模块实现
+	import threading
+	thread_obj = threading.Thread([group[,target[,name[args[,kwargs]]]]])
+	- group：暂时无用，未来功能的预留参数
+	- target：执行的目标任务名,一个函数
+	- args：以元组的方式给执行任务传参
+	- kwargs：以字典的方式给执行任务传参
+	- name：线程名，一般不用设置
+	# 启动线程，让线程开始工作
+	thread_obj.start()
+	# 结束进程，让线程结束工作
+	thread_obj.close()
+
+Socket网络编程:socket简称套接字，负责进程之间的网络数据传输，好比数据的搬运工。
+Socket服务端：等待其它进程的连接，可接受发来的消息，可以回复消息。
+Socket客户端：主动连接服务器，可以发送消息，可以接受回复。
+socket服务器编程：
+	1.创建socket对象：
+		import socket
+		socket_server = socket.socket()
+	2.绑定socket_server到指定IP和地址
+		socket_server.bind(("localhost",8888))
+	3.监听端口
+		socket_server.listen(backlog)   # backlog为int型，表示允许的连接数量，超出的会等待，可以不填，不填会自动设置一个合理值
+	4.接受客户端连接，获得连接对象
+		conn,address = socket_server.accept()
+		print(f'接受客户端连接，连接来自：{address}')
+		# accept返回的是一个二元元组，conn客户端和服务端的连接对象，address客户的地址信息
+		# accept方法是阻塞方法，如果没有连接，会卡在当前这一行不向下执行代码
+	5.客户端连接后，通过recv方法，接受客户端发送的消息
+		while True:
+			data = conn.recv(1024).decode("UTF-8")
+			# recv方法的返回值是数组，可以通过decode使用UTF-8来解码字符串，recv里面传递的参数是缓冲区大小，一般为1024即可
+			if data == 'exit':
+				break
+			print(f"接受到发送来的数据：{data}")
+			# 可以通过while True循环来实现持续的和客户端进行数据交互，通过判断发来的消息来退出循环
+	6.通过conn(客户端当次连接对象)，调用send方法可以回复消息
+		conn.send(("这是一次测试").encode("UTF-8"))
+	7.conn和socket_server对象调用close方法，关闭连接
+		conn.close()
+		socket_server.close()
+
+socket客户端编程：
+	1.创建socket对象
+		import socket
+		socket_client = socket.socket()
+	2.连接到服务器
+		socket_client.connect(("localhost",8888))
+	3.发送消息
+		socket_client.send(("你好啊").encode("UTF-8"))
+	4.接受返回消息
+		socket_client.recv(1024).decode("UTF-8")
+	5.关闭连接
+		socket_client.close()
+
+正则表达式：
+. 匹配任意字符   ? 匹配前一个字符0到1次
+$ 匹配结束位置   * 匹配前一个字符0到多次
+^ 匹配开始位置   + 匹配前一个字符1到多次
+{n,m} 匹配前一个字符n到m次
+[] 匹配[]中列举的字符
+\A 匹配字符串开始位置
+\Z 匹配字符串结束位置
+\b 匹配位于单词开始或结束的空字符串
+\B 匹配位于不在单词开始或结束的空字符串
+\d 匹配一个数字[0-9]
+\D 匹配非数字[^0-9]
+\s 匹配任意空白字符
+\w 匹配字母数字下划线
+\W 匹配非单词字符
+() 分组索引
+
+re.match(匹配字符，被匹配字符串)：从被匹配字符串开头进行匹配，匹配成功返回匹配对象，匹配不成功返回空
+eg： s = 'zhe shi yi chi ce shi'
+	result = re.match('shi',s)
+	print(result)   # 匹配的信息
+	print(result.span())   # 匹配成功返回的下标
+	print(result.group())   # 匹配成功的内容
+
+re.search(匹配字符，被匹配字符串):从整个字符串搜索，匹配到一个就结束
+
+re.findall(匹配字符，被匹配字符串)：查找全部满足查找条件的
+
+递归：方法或者函数自己调用自己的一种特殊编程写法
+eg: def func():
+		if ...:
+			func()
+
+		return ...
+
+递归需要注意什么：
+1.注意退出的条件，否则容易无限递归
+2.注意返回值的传递，确保从最内层，层层传递到最外层
+
+文件判断：导入os模块
+os.listdir(路径)：列出目录中的内容
+os.path.isdir(路径)：判断是否为目录
+os.path.exists(路径)：判断指定路径是否存在
+
+Spark:Apache Spark是用于大规模数据处理的统一分析引擎，Spark作为全球顶级的分布式计算框架，支持多种编程语言进行开发
+PySpark是Spark官方开发的Python语言的第三方库
+
+PySpark的两种用法：
+	1.作为Python库进行数据处理
+	2.提交至Spark集群进行分布式集群计算
+
+PySpark库的安装：
+pip install pyspark -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+构建PySpark执行对象环境入口：
+	1.导包
+	from pyspark import SparkConf, SparkContext
+
+	2.创建SparkConf对象
+	conf = SparkConf().setMaster("local[*]").setAppName("test_spark_app")   # setMaster()设置运行模式，setAppName()设置任务名字
+
+	3.基于SparkConf类对象创建SparkContext类对象
+	sc = SparkContext(conf=conf)
+
+	4.打印PySpark的运行版本
+	print(sc.version)
+
+	5.停止SparkContext对象的运行(停止PySpark程序)
+	sc.stop()
+
+PySpark编程模型：
+	1.数据输入：通过SparkContext完成数据读取
+	2.数据计算：读取到的数据转换为RDD对象，调用RDD的成员方法完成计算
+	3.数据输出：调用RDD的数据输出相关成员方法，将结果输出到list，元组，字典。文本文件，数据库等
+
+RDD：弹性分布式数据集（Resilent Distributed Datastes)
+PySpark针对数据的处理，都是以RDD对象作为载体：
+	1.数据储存在RDD内
+	2.各类数据的计算方法，也都是RDD的成员方法
+	3.RDD的数据计算方法，返回值依旧是RDD对象
+
+输入数据到Spark，得到RDD对象有两种方法：
+	1.通过SparkContext的parallelize成员方法，将python数据容器都转换为RDD对象
+		eg：rdd1 = sc.parallelize([1,2,3,4,5])
+			rdd2 = sc.parallelize((1,2,3,4,5))
+
+		查看RDD内容：print(rdd1.collect())
+		输出的类型都是列表，字符串输出是单个字母，字典只输出键不输出值
+
+	2.通过SparkContext的textFile成员方法，读取文本文件得到RDD对象
+		eg：rdd = sc.textFile(r'text.txt')
+
+		查看RDD内容：print(rdd.collect())，输出的类型也是列表
