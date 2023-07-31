@@ -555,3 +555,65 @@ PySpark针对数据的处理，都是以RDD对象作为载体：
 		eg：rdd = sc.textFile(r'text.txt')
 
 		查看RDD内容：print(rdd.collect())，输出的类型也是列表
+
+使用rdd的转换可能不成功，因为识别不到python解释器，需要自己手动配置：
+import os
+os.environ['PYSPARK_PYTHON'] = "D:/Python/python.exe"
+
+map算子(成员方法)：func: (T) -> V
+	1.接受一个处理函数，可以用lambda表达式快速编写
+	2.对rdd里面的元素逐个处理，并且返回一个rdd
+	rdd1 = rdd.map(func)
+	rdd2 = rdd.map(lambda x: x + 5)
+	rdd3 = rdd.map(lambda x: x + 5).map(lambda x: x * 10)
+
+flatMap算子：func: (T) -> V
+ 	1.计算逻辑和map一样
+ 	2.可以比map多出解除一层嵌套的功能
+ 	eg:rdd = sc.parallelize([[1, 2, [3,4,5]], [2, 3, 4], [3, 4, 5]])
+ 		rdd1 = rdd.map(lambda x: x)   # 输出结果是：[[1, 2, [3,4,5]], [2, 3, 4], [3, 4, 5]]
+ 		rdd2 = rdd.flatMap(lambda x: x)   # 输出的结果是：[1, 2, [3, 4, 5], 2, 3, 4, 3, 4, 5]
+
+reduceByKey算子：func: (V, V) -> V  两个传入参数的类型要一致
+功能：针对KV型RDD，自动按照key分组，然后按照提供的聚合逻辑，完成组内数据(value)的聚合操作
+	eg:rdd = sc.parallelize([('a', 1), ('a', 1), ('b', 1), ('b', 2)])
+		rdd1 = rdd.reduceByKey(lambda x, y: x + y)   # 输出结果为[('a', 2), ('b', 3)]
+
+filter(func): (T) -> bool
+过滤想要数据进行保留，返回是True的数据被保留，False的数据被丢弃
+	eg:rdd = sc.parallelize([1, 2, 3, 4, 5, 6])
+		rdd1 = rdd.filter(lambda x: x % 2 == 0)   # 输出结果为[2, 4, 6]
+
+distinct算子：去重操作
+	eg：rdd = sc.parallelize([1, 2, 3, 4, 3, 4, 5, 6])
+	rdd1 = rdd.distinct()   # 输出结果为[1, 2, 3, 4, 5, 6]
+
+sortBy(func,ascending=False,numPartitions=1):
+	func:(T) -> U:告知按照rdd中的哪个元素进行排序
+	ascending True升序 False降序
+	numPartitions：用多少分区排序，全局排序需要设置分区数为1
+	eg:rdd = sc.parallelize([('a', 11, '你好'), ('b', 22, '你也好'), ('c', 33, 'python')])
+		rdd1 = rdd.sortBy(lambda x: x[2], ascending=True, numPartitions=1)   # 结果是[('c', 33, 'python'), ('b', 22, '你也好'), ('a', 11, '你好')]
+
+数据输出：将rdd输出为python对象或者文件
+	rdd.collect()：将rdd输出为list对象
+		eg:print(rdd.collect())
+	rdd.reduce()：聚合数据，和reduceByKey相似，不过这个直接是元素
+		eg:print(rdd.reduce(lambda a, b: a + b))
+	rdd.take(n)：输出rdd的前n个元素
+		eg:print(rdd.take(3))
+	rdd.count()：输出rdd元素个数
+		print(rdd.count())
+	rdd.saveAsTextFile(path)：将内容输出到路径的文件夹，输出到文件夹，电脑有几个cpu核，就有几个分区
+
+	给spark设置为一个分区：
+	1.SparkConf设置属性全局并行度为1：conf.set('spark.default.parallelism','1')
+	2.创建RDD的时候设置numSlices参数为1：rdd1 = sc.parallelize([1, 2, 3, 4, 5], [numSlices=]1)
+
+	进行输出到文件中有依赖关系，需要先安装Hadoop
+	Hadoop：http://archive.apache.org/dist/hadoop/core/
+	winutils.exe和hadoop.dll：https://gitcode.net/mirrors/cdarlint/winutils
+	将下载的winutils.exe复制到Hadoop的bin目录下
+	hadoop.dll放入C:/Windows/System32文件夹内
+	在pycharm中编写os.environ['HADOOP_HOME'] = "D:/BigData/hadoop-3.3.5"
+
