@@ -213,7 +213,7 @@ JSON：json就是一个在各个编程语言中流通的数据格式，负责不
 json要么时一个字典要么是一个列表，列表里面的元素都是字典
 语法：import json   # 导包
 	json.dumps(data,ensure_ascii=False)   # 将列表或者字典转换为json格式，ensure_ascii时传递参数决定是不是使用ascii编码，默认为true
-	 json.loads()   # 将json格式转换为列表或者字典
+	json.loads()   # 将json格式转换为列表或者字典
 
 数据可视化：使用pyecharts模块
 画图可以参观画廊网站：https://gallery.pyecharts.org/#/BMap/bmap_heatmap
@@ -248,18 +248,18 @@ json要么时一个字典要么是一个列表，列表里面的元素都是字�
 创建柱状图：from pyecharts.charts import Bar
 			bar = Bar()
 			bar.add_xaxis(x)
-			bar.add_yaxis('标题',y,label_opts=LabelOpts=(position="right"))   # 参数是数字标签在右侧
+			bar.add_yaxis('标题',y,label_opts=LabelOpts(position="right"))   # 参数是数字标签在右侧
 			bar.reversal_axis()   # 反转xy轴
 			bar.render(name.html)
 
 创建时间线柱状图：from pyecharts.charts import Bar,Timeline
 				bar1 = Bar()
 				bar1.add_xaxis(x)
-				bar1.add_yaxis('标题',y,label_opts=LabelOpts=(position="right"))
+				bar1.add_yaxis('标题',y,label_opts=LabelOpts(position="right"))
 				bar1.reversal_axis()
 				bar2 = Bar()
 				bar2.add_xaxis(x)
-				bar2.add_yaxis('标题',y,label_opts=LabelOpts=(position="right"))
+				bar2.add_yaxis('标题',y,label_opts=LabelOpts(position="right"))
 				bar2.reversal_axis()
 				timeline = Timeline({"theme":ThemeType.LIGHT})   # 主题设置
 				timeline.add(bar1,'1')
@@ -315,7 +315,7 @@ eg:class Student:
 私有成员无法被类对象访问，类中的其它成员可以访问私有成员
 继承：继承就是一个类，继承另外一个类的成员变量和成员方法
 语法：class 类(父类)：   # 可以继承多个父类
-		类类容体
+		类内容体
 单继承：一个类继承另一个类
 多继承：一个类继承多个类，从左往右继承
 多继承中，如果有同名方法或者属性，先继承的优先级高于后继承
@@ -351,7 +351,8 @@ Union类型：联合类型，要么是1要么是2 eg：Union[str,int]
 		df = pd.read_sql_table('table_name',con=con)
 		# 存数据
 		df.to_sql('name',con=engine,if_exists='replace')   
-		# 其中if_exists的参数有：fail表示如果表存在则报错，replace表述如果表存在则删除原表再创建，append表示数据追加，replace index表示删除原表，保留原表索引,append index表示追加到数据原表，保留原表索引
+		# 其中if_exists的参数有：fail表示如果表存在则报错，replace表述如果表存在则删除原表再创建，append表示数据追加，
+			replace index表示删除原表，保留原表索引,append index表示追加到数据原表，保留原表索引
 		# 关闭连接
 		con.close()
 
@@ -407,7 +408,7 @@ eg: @auther
 注意：进程之间是内存隔离的，线程之间是内存共享的
 并行执行：同一时间做不同的工作。
 语法：通过threading模块实现
-	import threading
+	import threading  
 	thread_obj = threading.Thread([group[,target[,name[args[,kwargs]]]]])
 	- group：暂时无用，未来功能的预留参数
 	- target：执行的目标任务名,一个函数
