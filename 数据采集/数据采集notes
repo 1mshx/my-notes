@@ -71,9 +71,16 @@ urllib.parse.urlencode(字典)：对多个内容参数进行编码
 
 post请求：
 	1.post请求的参数，必须进行编码
-	data = urllib.request.Request(url=url,data=data,headers=headers)
+	data = urllib.parse.urlencode(data).encode('utf-8')
 	2.转换为json数据
 	obj = json.loads(content)
+
+爬虫中的异常：URLError和HTTPError
+request.HTTPError是URLError的子类，表示在发起http请求时出现错误
+request.URLError错误一般是主机地址和参数出了问题
+request.URLRequired格式出错，格式问题
+request.ConnectionError由于DNS查询失败的异常
+
 
 
 

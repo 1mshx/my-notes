@@ -139,5 +139,5 @@ scrapy使用(天气数据采集为例)：
 2.定义item：字段名 = Scrapy.Field()
 		eg:city = Scrapy.Field()
 		   date = Scrapy.Field()
-3.编写采集的代码
-4.保存到csv
+3.编写采集数据的程序
+	scrapy genspider tencentPostion "tencent.com"
