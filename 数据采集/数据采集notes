@@ -81,6 +81,65 @@ request.URLError错误一般是主机地址和参数出了问题
 request.URLRequired格式出错，格式问题
 request.ConnectionError由于DNS查询失败的异常
 
+cookie登录：
 
+request请求头：
+	headers = {
+	    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 '
+	                  'Safari/537.36',
+	    ':authority': 'weibo.com',
+	    ':method': 'GET',
+	    ':path': '/ajax/profile/info?uid=7848081846',
+	    ':scheme': 'https',
+	    'Accept': 'application/json, text/plain, */*',
+	    'Accept-Encoding': 'gzip, deflate, br',
+	    'Accept-Language': 'zh-CN,zh;q=0.9',
+	    'Client-Version': 'v2.43.4',
+	    'Cookie': ,   # Cookie携带着你的登录信息，如果有登录之后的cookie，那么我们就可以携带着cookie进入任何页面
+	    'Referer': ,   # 防盗链，判断当前路径是不是由上一个路径进来的，如果info链接不是通过这个进来的，那么会报错，一般用来做图片防盗链
+	    'Sec-Ch-Ua': '"Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"',
+	    'Sec-Ch-Ua-Mobile': '?0',
+	    'Sec-Ch-Ua-Platform': 'Windows',
+	    'Sec-Fetch-Dest': 'empty',
+	    'Sec-Fetch-Mode': 'cors',
+	    'Sec-Fetch-Site': 'same-origin',
+	    'Server-Version': 'v2023.07.27.1',
+	    'X-Requested-With': 'XMLHttpRequest',
+	    'X-Xsrf-Token': 'KntlQj_Y_oInkVZSIEGQjDDO',
+	}
+	1.带：的和Accept-Encoding的全都不好使，直接注释
+	2.Cookie携带着你的登录信息，如果有登录之后的cookie，那么我们就可以携带着cookie进入任何页面
+	3.Referer防盗链，判断当前路径是不是由上一个路径进来的，如果info链接不是通过这个进来的，那么会报错，一般用来做图片防盗链
 
+Handler处理器：
+	1.url.request.urlopen(url)
+		不能定制请求头
+	2.url.request.Reurest(url,headers,data)
+		可以定制请求头
+	3.Handler
+		定制更高级的请求头(随着业务逻辑的复杂，请求对象的定制已经不能满足我们的需求，比如动态cookie和代理不能使用请求对象的定制)
+三步：
+	(1)获取handler对象
+		handler = urllib.request.HTTPHandler()
+	(2)获取opener对象
+		opener = urllib.request.build_opener(handler)
+	(3)调用open方法
+		response = opener.open(request)
 
+代理服务器：
+	代理的常用功能：
+		1.突破自身IP的访问限制，访问国外站点
+		2.访问一些单位或团体的内部资源
+		3.提高访问速度
+		4.隐藏真实IP
+
+	代码配置代理：
+		1.创建Request对象
+		2.创建ProxyHandler对象
+		3.用handler对象创建opener对象
+		eg:	proxies = {
+			    'http': '36.255.85.218:32650'
+			}
+			handler = urllib.request.ProxyHandler(proxies=proxies)
+			opener = urllib.request.build_opener(handler)
+			response = opener.open(request)
