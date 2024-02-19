@@ -1,0 +1,63 @@
+参考网站：https://blog.csdn.net/weixin_43213884/article/details/120755543
+
+import seaborn as sns
+
+sns.set_style("dark")：设置主题风格
+
+5种主题风格：
+	darkgrid：背景灰色，格子形状的
+	whitegrid：背景白，只有横向线条
+	dark：背景灰色，没有线条
+	white：背景纯白，没有刻度线
+	ticks：背景纯白，有刻度线
+
+sns.despine()：去掉上面和右边的线
+
+
+sns.despine(offset=10)：设置图离轴线的距离
+
+sns.despine(left=True)：左边的轴隐藏，四个方位都可以
+
+画图选择不同的风格：
+	with sns.axes_style("darkgrid"):
+		plt.subplot(211)  # 在一个图中绘制多个子图，由三个参数组成，行数、列数、索引位置。plt.subplot(2,3,5)和plt.subplot(235)一样
+		sinplot()
+	plt.subplot(211)
+	sinplot(-1)
+	# 在with里面是一个风格，在外面是一个风格
+
+调节线条和坐标轴大小：paper\poster\notebook由细到粗
+	sns.set_context('notebook',font_scale=5.5,rc={'lines.linewidth':10.5})  # font_size 坐标数字大小，rc是线条粗细
+	plt.figure(figsize=(8,6))
+	sinplot()
+
+调色板：
+	color_palette()   传入颜色
+	set_palette()     设置图的颜色
+	current_palette = sns.color_palette()
+	sns.palplot(current_palette)
+	eg：sns.palplot(sns.color_palette('hls',20)) # hls是颜色空间，传出20种颜色
+
+饱和度：
+	hls_palette()
+	l = light亮度
+	s = saturation饱和度
+	eg：sns.palplot(sns.hls_palette(20,l=0.09,s=0.01))
+
+使用XKCD颜色来命名颜色：
+	# 在指定固定颜色的时候可以用这种方法
+	plt.plot([0,1],[2,3],sns.xkcd_rgb['red'],lw=4)
+	plt.plot([0,1],[2,4],sns.xkcd_rgb['green'],lw=3)
+	plt.plot([0,1],[2,5],sns.xkcd_rgb['blue'],lw=2)
+
+连续色板：
+	sns.palplot(sns.color_palette('Reds')) # 注意这里要首字母大写。是复数形式 颜色浅到深
+	sns.palplot(sns.color_palette('Reds_r')) # 注意这里要首字母大写。是复数形式 # _r = reverse 颠倒  颜色深到浅
+
+连续调色板：
+	sns.palplot(sns.dark_palette('red'))   # 浅到深
+
+单特征直方图，两个变量直接最好用散点图 
+
+
+

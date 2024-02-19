@@ -1,5 +1,3 @@
-Urllib
-
 爬虫：使用程序模拟浏览器，去向服务器发送请求，获取响应信息
 
 爬虫分类：
@@ -7,48 +5,48 @@ Urllib
 	robots协议：一个约定俗称的协议，添加robots.txt文件，说明本网站哪些内容不可以被抓取，起不到限制作用，自己写的爬虫无需遵守
 	缺点：1.抓取的数据大多都是无用的
 	2.不能根据用户的需求来精确获取数据
-(2)聚焦爬虫：功能 根据需求，实现爬虫程序，抓取需要的数据
+(2)聚焦爬虫：功能根据需求，实现爬虫程序，抓取需要的数据
 	设计思路：1.确定要爬取的url
 	2.模拟浏览器通过http协议访问url，获取服务器返回的html代码
 	3.解析html字符串
 
 反爬手段：
-1.User-Agent：用户代理，是一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本，CPU类型，浏览器及其版本，浏览器渲染引擎，浏览器语言，浏览器插件等。
-2.代理IP：西次代理，快代理
-3.验证码访问：打码平台，云打码平台
-4.动态加载网页：网站返回的是js数据，并不是网页的真实数据
-5.数据加密：分析js代码
+	1.User-Agent：用户代理，是一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本，CPU类型，浏览器及其版本，浏览器渲染引擎，浏览器语言，浏览器插件等。
+	2.代理IP：西次代理，快代理
+	3.验证码访问：打码平台，云打码平台
+	4.动态加载网页：网站返回的是js数据，并不是网页的真实数据
+	5.数据加密：分析js代码
 
 基本使用：
 	1.导包
-	import urllib.request
+		import urllib.request
 	2.定义想要访问的网址
-	url='http://baidu.com'
+		url='http://baidu.com'
 	3.模拟浏览器向服务器发送请求
-	response=urllib.request.urlopen(url)
+		response=urllib.request.urlopen(url)
 	4.获取响应内容
-	content=response.read().decode('utf-8')
+		content=response.read().decode('utf-8')
 
 一个类型六个方法：
-resopnse是HTTPResponse类型
-resopnse.read().decode('utf-8')：按照一个字节一个字节的去读
-resopnse.read(5).decode('utf-8')：里面数字多少返回多少
-resopnse.readline().decode('utf-8')：按照一行一行的去读
-resopnse.readlines().decode('utf-8')：按行读取，读取所有
-resopnse.getcode()：返回状态码，如果是200，说明没有问题
-resopnse.geturl()：返回url地址
+	resopnse是HTTPResponse类型
+	resopnse.read().decode('utf-8')：按照一个字节一个字节的去读
+	resopnse.read(5).decode('utf-8')：里面数字多少返回多少
+	resopnse.readline().decode('utf-8')：按照一行一行的去读
+	resopnse.readlines().decode('utf-8')：按行读取，读取所有
+	resopnse.getcode()：返回状态码，如果是200，说明没有问题
+	resopnse.geturl()：返回url地址
 
 请求对象的定制：
-# url的组成
-# https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E5%91%A8%E6%9D%B0%E4%BC%A6
-# http/https   www.baidu.com   80/443    s    ?后面的    #
-#    协议           主机        端口号    路径  参数     锚点
-# http      80
-# https     443
-# mysql     3306
-# oracle    1521
-# redis     6379
-# mongodb   27017
+	# url的组成
+	# https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E5%91%A8%E6%9D%B0%E4%BC%A6
+	# http/https   www.baidu.com   80/443    s    ?后面的    #
+	#    协议           主机        端口号    路径  参数     锚点
+	# http      80
+	# https     443
+	# mysql     3306
+	# oracle    1521
+	# redis     6379
+	# mongodb   27017
 
 	1.定义一个请求头
 	headers = {
@@ -61,13 +59,13 @@ resopnse.geturl()：返回url地址
 	response = urllib.request.urlopen(request)
 
 下载：
-网页：urllib.request.urlretrieve(视频地址,'存储地址.html')
-图片：urllib.request.urlretrieve(图片地址,'存储地址.jpg')
-视频：urllib.request.urlretrieve(视频地址,'存储地址.mp4')
+	网页：urllib.request.urlretrieve(视频地址,'存储地址.html')
+	图片：urllib.request.urlretrieve(图片地址,'存储地址.jpg')
+	视频：urllib.request.urlretrieve(视频地址,'存储地址.mp4')
 
 编码：
-urllib.parse.quto(内容)：单个内容进行编码
-urllib.parse.urlencode(字典)：对多个内容参数进行编码
+	urllib.parse.quto(内容)：单个内容进行编码
+	urllib.parse.urlencode(字典)：对多个内容参数进行编码
 
 post请求：
 	1.post请求的参数，必须进行编码
@@ -76,10 +74,10 @@ post请求：
 	obj = json.loads(content)
 
 爬虫中的异常：URLError和HTTPError
-request.HTTPError是URLError的子类，表示在发起http请求时出现错误
-request.URLError错误一般是主机地址和参数出了问题
-request.URLRequired格式出错，格式问题
-request.ConnectionError由于DNS查询失败的异常
+	request.HTTPError是URLError的子类，表示在发起http请求时出现错误
+	request.URLError错误一般是主机地址和参数出了问题
+	request.URLRequired格式出错，格式问题
+	request.ConnectionError由于DNS查询失败的异常
 
 cookie登录：
 
@@ -143,3 +141,422 @@ Handler处理器：
 			handler = urllib.request.ProxyHandler(proxies=proxies)
 			opener = urllib.request.build_opener(handler)
 			response = opener.open(request)
+
+	代理池的构建：
+		1.创建一个列表
+		2.从中随机选取
+		eg：proxies_pool = [
+    			{'http': '45.174.172.204:999'},
+  			  	{'http': '95.217.191.216:8080'},
+  			  	{'http': '91.202.144.77:8080'}
+			]
+			import random
+			proxies = random.choice(proxies_pool)
+
+xpath：解析方式，获取网页源码中的部分数据的一种方式
+	快捷键ctrl+s+x
+
+	xpath的返回值是列表类型的
+
+	Chrome浏览器安装xpath插件：
+		1.下载到本地：链接：https://pan.baidu.com/s/1qjx8hFa3WY_ItB_dd4nJiw?pwd=cn9k 提取码：cn9k 
+		2.更改文件后缀为zip，然后拖入到浏览器的扩展管理
+		3.打开开发者模式然后重启
+
+	PyCharm安装lxml库： pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+	xpath解析：
+		etree.parse():解析本地文件
+		etree.HTML():解析服务器响应文件
+
+	xpath基本语法：
+		1.路径查询：
+			//：查找所有子孙节点，不考虑层级关系
+			/：找直接子节点
+			eg:li_list = tree.xpath('//body/ul/li')
+		2.谓词查询： 
+			//div[@id]:
+			//div[@id='maincontent']
+			eg:li_list = tree.xpath('//ul/li[@id='1'])
+		3.属性查询：
+			//@class
+			eg:li_list = tree.xpath('//ul/li[@id="1"]/@class')
+		4.模糊查询：
+			//div[contains(@id,'he')]
+			//div[starts-with(@id.'he')]
+			eg:li_list = tree.xpath('//ul/li[contains(@id,"1")]')
+		5.内容查询：
+			/text()
+			eg:li_list = tree.xpath('//ul/li/text()')
+		6.逻辑运算：
+			//div[@id="1" and @class="c1"]
+			//title | //price
+			eg:li_list = tree.xpath('//ul/li[@id="1" and @class="c1"]')
+
+Jsonpath:
+	安装：pip install jsonpath -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+	jsonpath的使用：
+		obj = json.load(open('json文件', 'r', encoding='utf-8'))
+		ret = jsonpath.jsonpath(obj, 'jsonpath语法')
+
+	教程推荐链接：http://blog.csdn.net/luxideyao/article/details/77802389
+
+	和xpath的区别：jsonpath只能解析本地文件，xpath还可以解析服务器响应文件
+
+	这里有个表格，说明JSONPath语法元素和对应XPath元素的对比。
+
+		XPath		JSONPath			Description
+		/			$					表示根元素
+		.			@	 				当前元素
+		/			. or []				子元素
+		..			n/a					父元素
+		//			..					递归下降，JSONPath是从E4X借鉴的。
+		*			*					通配符，表示所有的元素
+		@			n/a 		    	属性访问字符
+		[]			[]	    	    	子元素操作符
+		|			[,]					连接操作符在XPath 结果合并其它结点集合。JSONP允许name或者数组索引。
+		n/a			[start:end:step]	数组分割操作从ES4借鉴。
+		[]			?()					应用过滤表示式
+		n/a			()					脚本表达式，使用在脚本引擎下面。
+		()			n/a 				Xpath分组
+
+		XPath还有很多的语法（本地路径，操作符，和函数）没有列在这里。只要知道xpath和jsonpath脚本之中的不同点就行了。
+		[]在xpath表达式总是从前面的路径来操作数组，索引是从1开始。
+		使用JOSNPath的[]操作符操作一个对象或者数组，索引是从0开始。
+
+BeautifulSoup：简称bs4
+	优缺点：
+		优点：接口设计人性化，使用方便
+		缺点：效率没有lxml高
+
+	安装：pip install bs4 -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+	使用：
+		服务器响应的文件生成对象：
+			soup = BeautifulSoup(response.read().decode(), 'lxml')
+		本地文件生成对象：
+			soup = BeautifulSoup(open('1.html', 'lxml'))
+		默认打开文件的编码格式gbk，所以需要指定打开编码格式
+
+	节点定位：
+		1.根据标签名查找节点：
+			soup.a：找到的是第一个符合条件的a
+			soup.a.attrs：获取标签的属性和属性值
+
+		2.函数
+			(1)find() 返回一个对象
+				1.find('a'):只找到第一个a标签
+				2.find('a', title="name"):可以通过条件找到对应的标签对象
+				3.find('a', class_="name"):根据class的值来找到对应的标签对象 注意的是class需要添加下划线
+
+			(2)find_all() 返回一个对象
+				1.find_all('a'):返回查找到的所有a标签
+				2.find_all(['a', 'span']):如果想获取的是多个标签的数据，那么在里面添加的是列表的标签
+				3.find_all('a', limit=a):limit的作用是查找前几个数据
+
+			(3)select() 根据选择器得到节点对象，一般推荐使用这个
+				1.类选择器:通过.代表class
+					eg:select('.a1') 
+				2.id选择器:通过#来代表id
+					eg:select('#a2')
+				3.属性选择器：
+					eg:select('li[id="a2"]')	查找li标签中id为a2的标签
+					eg:select('li[id]')			查找li中有id的标签
+				4.层级选择器：
+					div p 后代	：select('div li')
+					div > p 儿子	：select('div > ul > li')
+					div, p 兄弟	：select('a, li')
+
+	节点信息：
+		(1)获取节点内容：适用于标签中嵌套的结构
+			obj.string
+			obj.get_text()	推荐
+			如果标签对象中只有内容，那么string和get_text()都可以使用，但是如果在标签对象中除了内容还有标签，那么string就获取不到数据
+		(2)节点的属性
+			tag.name:获取标签名
+			tag.attrs将属性值作为一个字典返回
+		(3)获取节点属性
+			obj.attrs.get('name')	常用
+			obj.get('name')
+			obj['name']
+
+Selenium:
+	https://blog.csdn.net/qq_44326412/article/details/107825851
+	https://blog.csdn.net/kobepaul123/article/details/128796839
+		(1)selenium是一个用于web应用程序测试的工具
+		(2)selenium测试直接运行在浏览器中，就像真正的用户在操作一样
+		(3)支持各种driiver(FirfoxDriver,IternetExplorerdriver,Operdriver,ChromeeeeDriver)驱动真实浏览器完成测试
+		(4)selenium支持无界面浏览器操作的
+
+	2.使用selenium的好处
+		模拟浏览器功能，自动执行网页中的js代码，实行动态加载
+
+	3.安装selenium：
+		下载地址：https://registry.npmmirror.com/binary.html?path=chromedriver/
+		终端：pip install selenium -i https://pypi.tuna.tsinghua.edu.cn/simple/
+		将下载下来的安装包解压，将里面的chromedriver.exe移动到python安装目录底下
+		如果出现打开闪退，降低selenium版本，下载4.0.0的
+
+	4.使用：
+		# (1)导入selenium
+		from selenium import webdriver
+
+		# (2)创建浏览器操作对象
+		path = 'chromedriver.exe'
+		browser = webdriver.Chrome()
+
+		# (3)访问网站
+		url = 'https://www.jd.com'
+		browser.get(url)
+
+		# (4)page_source获取网页源码
+		content = browser.page_source
+		print(content)
+
+	5.元素定位
+		# 通过ID查找元素
+		element_by_id = browser.find_element(By.ID, "su")
+		print(element_by_id)
+
+		# 通过Name查找元素
+		element_by_name = browser.find_element(By.NAME, "wd")
+		print(element_by_name)
+
+		# 通过XPath查找元素
+		element_by_xpath = browser.find_element(By.XPATH, "//input[@id='su']")
+		print(element_by_xpath)
+
+		# 通过CSS选择器查找元素
+		element_by_css_selector = browser.find_element(By.CSS_SELECTOR, "#su")
+		print(element_by_css_selector)
+
+		# 通过链接文本查找元素
+		element_by_link_text = browser.find_element(By.LINK_TEXT, "新闻")
+
+		# 通过部分链接文本查找元素
+		element_by_partial_link_text = browser.find_element(By.PARTIAL_LINK_TEXT, "图片")
+
+		# 通过类名查找元素
+		element_by_class_name = browser.find_element(By.CLASS_NAME, "s_ipt")
+		print(element_by_class_name)
+
+		# 通过标签名查找元素
+		element_by_tag_name = browser.find_element(By.TAG_NAME, "input")
+		print(element_by_tag_name)
+
+		# 通过表单元素属性查找元素
+		element_by_attribute = browser.find_element(By.CSS_SELECTOR, "input[name='wd']")
+		print(element_by_attribute)
+
+		# 在输入框中输入文本
+		element_by_id.send_keys("百度一下")
+		print(element_by_id)
+
+	6.访问元素信息
+		(1)获取元素属性
+		.get_attribute('class')
+		(2)获取元素文本
+		.text
+		(3)获取标签名
+		.tag_name
+
+
+	7.元素交互
+		button.click()：点击按钮
+		input_box.send_keys('周杰伦')：在文本框中输入周杰伦
+		browser.execute_script("window.scrollBy(0,10000)")：滑到页面底部
+		browser.back()：回到上一页
+		browser.forward()：返回下一页
+		browser.quit()：关闭
+
+Phantomjs:
+	(1)是一个无界面浏览器
+	(2)支持页面元素查找，js执行等
+	(3)由于不进行css和gui渲染，运行效率比真实浏览器快得多
+
+	browser = webdriver.PhantomJS()
+	browser.get(url)
+	browser.save_screenshot('baidu.png')：保存屏幕快照
+
+Chrome handless:
+	不打开UI界面使用Chrome浏览器，运行效果更好
+	from selenium import webdriver
+	from selenium.webdriver.chrome.options import Options
+
+	chrome_options = Options()
+	chrome_options.add_argument('--headless')
+	chrome_options.add_argument('--disable-gpu')
+
+	path = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
+	chrome_options.binary_location = path
+
+	browser = webdriver.Chrome(chrome_options=chrome_options)
+
+request:
+	(1)官方文档：https://requests.readthedocs.io/projects/cn/zh-cn/latest/
+		快速上手：https://requests.readthedocs.io/projects/cn/zh-cn/latest/user/quickstart.html
+
+		安装：pip install requests -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+	(2)response的属性以及类型
+		r.text：获取网站源码
+		r.encoding：访问或定制编码方式
+		r.url：获取请求的url
+		r.content：响应的字节类型
+		r.status_code：响应的状态码
+		r.headers：响应的头信息
+
+	(3)get请求：
+		import requests
+		url = 'https://www.baidu.com/s?'
+		headers = {}
+		data = {}
+		response = requests.get(url=url, headers=headers, params=data)
+		print(response.text)
+
+	(4)post请求：
+		import requests
+		url = 'https://fanyi.baidu.com/sug'
+		headers = {}
+		data = {}
+		response = requests.post(url=url, headers=headers, data=data)
+		print(response.text)
+
+	(5)代理：
+		import requests
+		url = 'https://fanyi.baidu.com/sug'
+		headers = {}
+		data = {}
+		proxies = {}
+		response = requests.get(url=url, headers=headers, params=data, proxies=proxies)
+		print(response.text)
+
+	(6)cookies登录：
+		验证码和隐藏域需要注意
+
+		dddocr可以进行验证码识别
+			pip install ddddocr -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+		获取验证码时使用session()方法
+			session = requests.session()
+			response_code = session.get(code_url)
+			....
+			response = session.post()
+
+Scrapy:
+	(1)scrapy是什么？
+		scrapy是一个为了爬取网站数据，提取结构性数据而编写的应用框架。
+
+	(2)安装scrapy：
+		pip install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+		如果安装出错：https://www.bilibili.com/video/BV1Db4y1m7Ho/?p=90&spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=542c1bbd8ecb60b3df4d9b6d1b313daa
+
+	(3)基本使用
+		创建scrapy项目：
+			终端输入：scrapy startproject 项目名称
+			项目名字不允许数字开头，也不许出现中文
+			eg：scrapy startproject scrapy_33
+
+		创建爬虫文件：
+			要在spiders文件夹中去创建爬虫文件
+			scrapy genspider 爬虫文件的名字 域名
+			eg：scrapy genspider baidu www.baidu.com
+
+		运行爬虫代码：
+			scrapy crawl 爬虫名字
+			eg：scrapy crawl baidu
+
+			注意：在setting.py中把robots协议给改为False
+
+		项目组成：
+			spiders
+				__init__.py
+				自定义的爬虫软件.py 		-->由我们自己创建，是实现爬虫的核心功能的文件
+			__init__.py
+			items.py 					-->定义数据结构的地方，是一个继承自scrapy.Item的类，爬取的数据包含那些
+			middlewares.py 				-->中间件  代理
+			pipelines.py 				-->管道文件，里面只有一个类，用于处理下载数据的后续处理，默认是300优先级，值越小优先级越高(1-1000)
+			settings.py 				-->配置文件  robots协议，User-Agent等
+
+			response.xpath()    		可以直接使用xpath方法来解析
+			response.extract()			提取seletor对象的data属性值
+			response.extract_first()	提取seletor列表的第一个数据
+
+		如果请求的接口是html结尾的，那么结尾是不需要加/的
+
+	(4)scrapy架构构成：
+		Scrapy Engine（引擎）：负责 Spiders、Item Pipeline、Downloader、Scheduler 之间的通信，包括信号和数据传输等。
+
+		Item（项目）：定义爬取结构的数据结构，爬取的数据会被赋值成该对象。
+
+		Scheduler（调度器）：负责接收引擎发送过来的 Request 请求，并按照一定的方式进行整理排列和入队，当引擎需要时，交还给引擎。
+
+		Downloader（下载器）：负责下载引擎发送的所有 Requests；并将其获取到的 Responses 交还给引擎，由引擎交给 Spider 来处理。
+
+		Spiders（爬虫）：负责处理所有 Responses，从中分析提取数据，获取 Item 字段需要的数据，并将需要跟进的 URL 提交给引擎，再次进入调度器。
+
+		Item Pipeline（项目管道）：负责处理 Spiders 中获取到的 Item 数据，并进行后期处理（比如清洗、验证和存储数据）。
+
+		Downloader Middlewares（下载中间件）：是一个可以自定义扩展下载功能的组件，主要是处理引擎与下载器之间的请求及响应。
+
+		Spider Middlewares（爬虫中间件）：是一个可以自定义扩展 Scrapy Engine 和 Spiders 中间通信的功能组件，主要是处理 Spiders 输入的响应和 Spiders 输出的请求。
+
+	(5)scrapy框架运作流程
+		1.引擎向Spiders请求第一个要爬取的URL
+		2.引擎从Spiders中获取到第一个要爬取的URL并封装成Request交给调度器
+		3.引擎向调度器请求下一个要爬取的Request
+		4.调度器返回下一个要爬取的Request给引擎，引擎将Request通过下载中间件转发给下载器
+		5.页面下载完毕之后，下载器生成一个该页面的Response并将其通过下载中间件发送给引擎
+		6.引擎从下载器中接收到Response并通过Spider中间件发送给Spider处理
+		7.Spider处理Response并返回爬取到的Item以及新的Request给引擎
+		8.引擎将爬取到的Item交给Item Pipeline，将Request交给调度器
+		9.重复第二步到最后一步，直到调度器中没有更多的Request
+
+	(6)Scrapy shell
+		下载iphython      pip install ipython -i https://pypi.tuna.tsinghua.edu.cn/simple/
+
+		直接在终端输入： scrapy shell 域名
+		eg：scrapy shell ww.baidu.com
+
+	(7)yield
+		1.带有yield的函数不再是一个普通函数，而是一个生成器generator，可用于迭代
+		2.yield 是一个类似 return 的关键字，迭代一次遇到vield时就返回yield后面(右边)的值，重点是:下一次选代时，从上一次迭代遇到的yield后面的代码(下一行)开始执行
+		3.简要理解: yield就是return返回一个值，并且记住这个返回的位置，下次迭代就从这个位置后(下一行)开始
+
+		eg：book = ScrapyDdw36Item(src=src, name=name, price=price)
+            # 获取一个book就将一个book交给pipelines
+            yield book
+        
+        4.对第二页的地址发起访问
+            yield scrapy.Request(url=url,callback=self.parse)
+            callback就是你要执行的那个函数，注意不需要加()，可以自己定义一个，比如：
+            yield scrapy.Request(url,callback=self.parse_second)
+
+            在scrapy.Request()中有一个参数，把外面的值当作字典传到里面去,meta
+            eg:yield scrapy.Reqtest(url,callback=self.parse_second,meta={"name":name})
+               在里面取出来就是：
+               name = reaponse.meta['name']
+
+    (8)CrawlSpider
+        1.继承自scrapy.Spider
+        2.CrawlSpider可以定义规则，在解析html内容的时候，可以根据链接规则提取出指定的链接，然后再向这些链接发送请求，相当于爬取网页之后，需要提取链接继续爬取，使用CrawlSpider是非常合适的
+        3.提取链接
+
+	
+
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
