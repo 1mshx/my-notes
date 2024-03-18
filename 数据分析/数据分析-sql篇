@@ -1,0 +1,91 @@
+一、查询语句
+	select distinct 列名 from 表名 where 表达式 order by 字段名 [asc升序(默认)|desc降序] group by 字段名 having 字段名 limit [位置偏移量,行数]
+
+	where 表达式：进行筛选
+
+	like：模糊匹配查询
+
+	order by 字段名：进行排序
+
+	group by 字段名：规定一句哪个字段分组聚合
+
+	having：条件查询，必须配合group by 一起用，对聚合后的数据进行筛选
+
+	distinct：去重
+
+	limit：显示多少行
+
+二、常用函数
+	count(列)：统计多少个
+
+	max(列)：查找最大值
+
+	min(列)：查找最小值
+
+	sum(列)：对列求和
+
+	round(x,y)：四舍五入函数，对x进行四舍五入，精确到小数点后y位
+
+	concat(x,y)：对字符串进行拼接，注意如果是concat('My',null,'SQL')返回的是null
+
+	replace(S,s1,s2)：替换函数，用s2替换S中所有的s1
+
+	left(s,n)：在s中返回前n个
+
+	right(s,n)：在s中返回后n个
+
+	substring(s,n,len)：在s中从n位置开始，返回长度为len的字符串，如果n为负数则从后面开始
+
+	cast(x as type)：转换数据类型，把x的类型转换为type，type的参数可以写char(n),date,time,datetime,decimal,float等
+
+	year(date),month(date),day(date)：获取年月日的函数
+
+	date_add(date,interval expr type),date_sub(date,interval expr type)：对指定起始时间进行加减操作
+		date：只当起始时间
+		expr：用来指定从起始时间田间或减去的时间间隔
+		type：指示expr被解释的方式
+
+	datediff(a,b)：计算两个日期之间间隔的天数a-b
+
+	date_format(date,format)：将日期和时间进行格式化
+
+	if(expr,v1,v2)：满足返回v1,不满足返回v2
+
+	case when：
+		case 2 when 1 then 'one' when 2 then 'two' else 'more' end 如果2等于1就返回one，等于2就返回two，否则就返回more
+
+三、窗口函数
+	over([partition by 字段名][order by 字段名 asc|desc])
+		partition by 指定分区依据，只分区不去重 order by 指定排序依据
+
+	rank()over()
+		eg：98，98，88，78 -> 1，1，3，4
+	dense_rank()over()
+		eg：98，98，88，78 -> 1，1，2，3
+	row_number()over()
+		eg：98，98，88，78 -> 1，2，3，4
+
+	eg：select distinct first_cate_code,rank()over(partition by first_cate_code ORDER BY cast(item_price as FLOAT) desc) as posn form order_train0
+
+	lag(expr,n)over()：返回前n行的expr数据
+	lead(expr,n)over():返回当前行后n行的expr数据
+	# 用于求同环比比较多
+
+	irst_value(expr)：返回第一个 expr 的值
+	last_value(expr)：返回最后一个 expr 的值
+	nth_value(expr,n)：返回窗口中第 n 个 expr 的值
+
+四、表连接
+	外连接：允许两边都有空值存在
+		from 表1 full outer join 表2 on 表1.字段名 = 表2.字段名
+	内连接：不允许存在空值
+		from 表1 inner join 表2 on 表1.字段名 = 表2.字段名   inner可以省略，默认内连接
+	左连接：允许右边存在空值
+		from 表1 left join 表2 on 表1.字段名 = 表2.字段名
+	右连接：允许左边存在空值
+		from 表1 right join 表2 on 表1.字段名 = 表2.字段名
+
+五、子查询
+	select * from 表名 where (select * from 表名 where 条件)
+
+	

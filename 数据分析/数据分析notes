@@ -35,3 +35,33 @@ np.ones((n,m)) 全为1的二维数组
 组合数组： 横向组合和纵向组合  (n, m)
 np.hstack((arr1,arr2)) 横向聚合arr1和arr2，n相同
 np.vstack((arr1,arr2)) 纵向聚合arr1和arr2，m相同
+
+一、Pandas
+	Series一维数组，可以指定自己的名字
+		eg：s1 = pd.Series([1,2,3],name='test')
+	DataFrame二维数组，
+
+	groupby()：分组聚合 
+
+	map():series对象
+
+	apply()/applymap()：dataframe对象
+
+
+二、字符串处理
+	split('拆分依据',expand=True)：字符串拆分,expand是对于拆分后存储为dataframe
+
+	contains()：商品筛选，返回Fales和True
+
+	replace()：替换操作
+
+	extract()：从字符串里面选择出来
+
+三、绘图
+	折线图：line
+	水平柱状图：barh
+	柱状图：bar
+	直方图：hist
+	散点图：scatter
+	饼图：pie
+
